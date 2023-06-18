@@ -1,5 +1,7 @@
 const parseEnv = () => {
-    // Write your code here 
+  Object.keys(process.env).forEach((el) => {
+    el.match("RSS") && console.log(`${el}=${process.env[`${el}`]}`);
+  });
 };
 
 parseEnv();
