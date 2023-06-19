@@ -13,13 +13,13 @@ const copy = async () => {
     if (!rootDir.includes("files") || rootDir.includes(`${FILES_COPY}`))
       throw new Error("FS operation failed");
 
-    await fs.mkdir(`${DIR_NAME}/${FILES_COPY}`);
+    await fs.mkdir(path.join(DIR_NAME, FILES_COPY));
 
-    const filesDir = await fs.readdir(`${DIR_NAME}/files`);
+    const filesDir = await fs.readdir(path.join(DIR_NAME, "files"));
     filesDir.forEach(async (file) => {
       await fs.cp(
-        `${DIR_NAME}/files/${file}`,
-        `${DIR_NAME}/${FILES_COPY}/${file}`,
+        path.join(DIR_NAME, "files", file),
+        path.join(DIR_NAME, FILES_COPY, file),
         {},
         (err) => {
           if (err) {

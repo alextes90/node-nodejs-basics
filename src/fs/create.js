@@ -7,11 +7,11 @@ const FILE_NAME = "fresh.txt";
 
 const create = async () => {
   try {
-    const files = await fs.readdir(`${DIR_NAME}/files`);
+    const files = await fs.readdir(path.join(DIR_NAME, "files"));
     if (files.includes(`${FILE_NAME}`)) throw new Error("FS operation failed");
 
     const content = "I am fresh and young";
-    await fs.writeFile(`${DIR_NAME}/files/${FILE_NAME}`, content);
+    await fs.writeFile(path.join(DIR_NAME, "files", FILE_NAME), content);
   } catch (err) {
     console.log(err);
   }

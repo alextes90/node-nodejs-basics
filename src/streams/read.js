@@ -6,8 +6,14 @@ import path from "path";
 const DIR_PATH = path.dirname(fileURLToPath(import.meta.url));
 
 const read = async () => {
-  const input = createReadStream(`${DIR_PATH}/files/fileToRead.txt`);
+  const input = createReadStream(
+    path.join(DIR_PATH, "files", "fileToRead.txt")
+  );
   input.pipe(stdout);
+
+  input.on("error", () => {
+    throw new Error("Stream is failed");
+  });
 };
 
 await read();

@@ -8,15 +8,12 @@ const OLD_FILE_NAME = "wrongFilename.txt";
 
 const rename = async () => {
   try {
-    const files = await fs.readdir(`${DIR_NAME}/files`);
-    if (
-      files.includes(`${NEW_FILE_NAME}`) ||
-      !files.includes(`${OLD_FILE_NAME}`)
-    )
+    const files = await fs.readdir(path.join(DIR_NAME, "files"));
+    if (files.includes(NEW_FILE_NAME) || !files.includes(OLD_FILE_NAME))
       throw new Error("FS operation failed");
     await fs.rename(
-      `${DIR_NAME}/files/${OLD_FILE_NAME}`,
-      `${DIR_NAME}/files/${NEW_FILE_NAME}`
+      path.join(DIR_NAME, "files", OLD_FILE_NAME),
+      path.join(DIR_NAME, "files", NEW_FILE_NAME)
     );
   } catch (err) {
     console.log(err);

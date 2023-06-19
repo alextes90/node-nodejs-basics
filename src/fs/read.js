@@ -7,11 +7,14 @@ const FILE_NAME = "fileToRead.txt";
 
 const read = async () => {
   try {
-    const files = await fs.readdir(`${DIR_NAME}/files`);
-    if (!files.includes(`${FILE_NAME}`)) throw new Error("FS operation failed");
-    const response = await fs.readFile(`${DIR_NAME}/files/${FILE_NAME}`, {
-      encoding: "utf8",
-    });
+    const files = await fs.readdir(path.join(DIR_NAME, "files"));
+    if (!files.includes(FILE_NAME)) throw new Error("FS operation failed");
+    const response = await fs.readFile(
+      path.join(DIR_NAME, "files", FILE_NAME),
+      {
+        encoding: "utf8",
+      }
+    );
     console.log(response);
   } catch (err) {
     console.log(err);

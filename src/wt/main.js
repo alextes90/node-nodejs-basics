@@ -7,7 +7,7 @@ const DIR_PATH = path.dirname(fileURLToPath(import.meta.url));
 
 const performCalculations = async () => {
   const numberOfCPU = os.cpus().length;
-  const result = await Promise.all(
+  const result = await Promise.allSettled(
     [...Array(numberOfCPU).keys()].map((el, index) => {
       return new Promise((resolve, reject) => {
         const worker = new Worker(`${DIR_PATH}/worker.js`, {
@@ -23,7 +23,18 @@ const performCalculations = async () => {
     })
   );
 
-  console.log(result);
+  console.log(
+    result.map((el) => {
+      if (el.value) {
+        return el.value;
+      } else {
+        return {
+          status: "error",
+          data: null,
+        };
+      }
+    })
+  );
 };
 
 await performCalculations();
