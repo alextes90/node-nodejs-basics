@@ -1,9 +1,10 @@
 const parseEnv = () => {
   const result = [];
   Object.keys(process.env).forEach((el) => {
-    el.match("RSS") && result.push(`${el}=${process.env[`${el}`]}`);
+    el.startsWith("RSS") && result.push(`${el}=${process.env[`${el}`]}`);
   });
-  console.log(result.join("; "));
+  const stringifiedEnvVars = result.join(", ");
+  console.log(stringifiedEnvVars);
 };
 
 parseEnv();

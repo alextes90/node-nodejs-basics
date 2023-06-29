@@ -3,16 +3,13 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 
 const DIR_NAME = path.dirname(fileURLToPath(import.meta.url));
+const pathToSource = path.join(DIR_NAME, "files");
 
 const list = async () => {
   try {
-    const rootDir = await fs.readdir(DIR_NAME);
-
-    if (!rootDir.includes("files")) throw new Error("FS operation failed");
-
-    console.log(await fs.readdir(path.join(DIR_NAME, "files")));
-  } catch (err) {
-    console.log(err);
+    console.log(await fs.readdir(pathToSource));
+  } catch {
+    throw new Error("FS operation failed");
   }
 };
 

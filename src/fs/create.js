@@ -4,16 +4,14 @@ import { fileURLToPath } from "url";
 
 const DIR_NAME = path.dirname(fileURLToPath(import.meta.url));
 const FILE_NAME = "fresh.txt";
+const content = "I am fresh and young";
+const pathToNewFile = path.join(DIR_NAME, "files", FILE_NAME);
 
 const create = async () => {
   try {
-    const files = await fs.readdir(path.join(DIR_NAME, "files"));
-    if (files.includes(`${FILE_NAME}`)) throw new Error("FS operation failed");
-
-    const content = "I am fresh and young";
-    await fs.writeFile(path.join(DIR_NAME, "files", FILE_NAME), content);
-  } catch (err) {
-    console.log(err);
+    await fs.writeFile(pathToNewFile, content, { flag: "wx" });
+  } catch {
+    throw new Error("FS operation failed");
   }
 };
 

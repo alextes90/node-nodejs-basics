@@ -1,28 +1,20 @@
-import { stdin, stdout } from "process";
-import { TransformStream, ReadableStream } from "stream/web";
+import { Transform } from "stream";
+import { pipeline } from "stream/promises";
+import os from "os";
+
+const reverse = new Transform({
+  transform(chunk, _, cb) {
+    const string = chunk.toString().trim();
+    const reversedString = string.split("").reverse().join("");
+    cb(null, reversedString + os.EOL);
+  },
+});
+
+const cliInput = process.stdin;
+const cliOutput = process.stdout;
 
 const transform = async () => {
-  console.log("to close type exit");
-
-  stdin.on("data", async (data) => {
-    if (data.toString().trim() === "exit") {
-      stdout.write("\nThank you for checking! And Good luck\n");
-      process.exit();
-    } else {
-      const stream = new ReadableStream({
-        start(controller) {
-          controller.enqueue(data);
-        },
-      });
-      const transform = new TransformStream({
-        transform(chunk, controller) {
-          controller.enqueue(chunk.toString().split("").reverse().join(""));
-        },
-      });
-      const transformedStream = stream.pipeThrough(transform);
-      for await (const chunk of transformedStream) stdout.write(chunk + "\n");
-    }
-  });
+  await pipeline(cliInput, reverse, cliOutput);
 };
 
-await transform();
+await transform().catch(console.error);

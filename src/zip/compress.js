@@ -17,4 +17,4 @@ const compress = async () => {
   await pipeline(source, gzip, destination);
 };
 
-await compress();
+await compress().catch(console.error);
